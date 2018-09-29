@@ -1,0 +1,17 @@
+﻿@using BookSiteWeb.Models
+@model NewsListViewModel
+
+@{
+    ViewBag.Title = "Книги";
+}
+
+@foreach (var news in Model.Newses)
+{
+    @Html.Partial("_BookSummary", news)
+}
+
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, genre = Model.CurrentGenre }))
+</div>
+
+

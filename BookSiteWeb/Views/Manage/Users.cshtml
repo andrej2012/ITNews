@@ -1,0 +1,100 @@
+﻿@model PagedList.IPagedList<BookSiteWeb.Models.ApplicationUser>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+@{
+    ViewBag.Title = "Список пользователей";
+}
+
+<h2>Список пользователей</h2>
+<br />
+
+@using (Html.BeginForm("Users", "Manage", FormMethod.Get))
+{
+    <p>
+        <input type="submit" id="submit_lock" value="Заблокировать" name="Lock" />
+        <input type="submit" id="submit_unlock" value="Разблокировать" name="Unlock" />
+        Поиск по имени: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Найти" />
+    </p>
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                <input type="checkbox" id="parent" />
+            </th>
+            <th>
+                @Html.ActionLink("Имя", "Users", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                @Html.ActionLink("Последний логин", "Users", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                Блокировка
+            </th>
+            <th>
+                Изменение роли
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" class="child" name="selected" value="@item.Id" />
+                </td>
+                <td>                   
+                    <strong>@Html.ActionLink(item.UserName, "IndexAdmin", new { Id = item.Id })</strong>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostedDate)
+                </td>
+                <td>
+                    @if (item.Lock)
+                    {<p>Locked</p>}
+                    else
+                    { <p>Unlocked</p>}
+                </td>
+                <td class="dl-horizontal">
+                    @Html.Partial("TakeUser", new BookSiteWeb.Models.ApplicationUser() { Id = item.Id })
+                    @Html.Partial("TakeWriter", new BookSiteWeb.Models.ApplicationUser() { Id = item.Id })
+                    @Html.Partial("TakeAdmin", new BookSiteWeb.Models.ApplicationUser() { Id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+<br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+    <script>
+        $(document).ready(function () {
+
+            $("#parent").click(function () {
+                $(".child").prop("checked", this.checked);
+            });
+
+            $('.child').click(function () {
+                if ($('.child:checked').length == $('.child').length) {
+                    $('#parent').prop('checked', true);
+                } else {
+                    $('#parent').prop('checked', false);
+                }
+            });
+        });
+    </script>
+
+
+
+

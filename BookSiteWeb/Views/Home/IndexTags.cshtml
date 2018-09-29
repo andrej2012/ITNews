@@ -1,0 +1,13 @@
+﻿@model IEnumerable<BookSiteWeb.Models.News>
+
+@{
+    ViewBag.Title = "IndexTags";
+}
+
+
+@foreach (var news in Model)
+{
+    @Html.Partial("_BookSummary", news)
+}
+
+

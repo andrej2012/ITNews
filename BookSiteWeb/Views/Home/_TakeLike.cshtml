@@ -1,0 +1,41 @@
+﻿@model BookSiteWeb.Models.Comment
+
+@using (Html.BeginForm("_TakeLike", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CommentId)
+        @Html.HiddenFor(model => model.NewsId)
+        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.ImageURL)
+        @Html.HiddenFor(model => model.UserName)
+
+        <div class="form-group">
+            @Html.DisplayFor(model => model.CountLike)
+            <input type="image" value="Like" class="btn btn-default" src="~/Images/like.png" width="50" />            
+        </div>
+    </div>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+    <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var notificationhub = $.connection.notificationHub;
+
+            notificationhub.client.displayMessage = function (message) {
+                window.location.reload(true);
+            };
+
+            $.connection.hub.start();
+
+        });
+    </script>
+}
