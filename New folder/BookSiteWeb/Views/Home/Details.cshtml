@@ -1,0 +1,68 @@
+﻿@model BookSiteWeb.Models.NewsAndCommentViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <h1>
+        @Html.DisplayFor(model => model.Newses.Name)
+    </h1>
+    <br />
+    <img src="@Html.Raw(Model.Newses.ImageURL)" width="500" />
+    <br />
+    <br />
+    <h4>
+        @Html.DisplayFor(model => model.Newses.TextNews)
+    </h4>
+    <h5>
+        Тeги:
+        @foreach (var news in Model.Tags)
+        {
+            <b>
+                @Html.ActionLink(news.TagName, "IndexTags", new { id = news.TagId })
+            </b>
+        }
+    </h5>
+    <h3>
+        Автор: <strong>@Html.ActionLink(@Model.Newses.UserName, "Profile", new { userId = Model.Newses.UserId })</strong>
+    </h3>
+    <h4>
+        Рейтинг: @Model.Newses.Rate.ToString("0.00")
+        @Html.Partial("_TakeRate", new BookSiteWeb.Models.Rating() { NewsId = Model.Newses.NewsId })
+    </h4>
+    <br />
+</div>
+
+<div>
+    @foreach (var news in Model.Comments)
+    {
+        @Html.Partial("_NewsSummary", news)
+    }
+</div>
+
+@{
+    BookSiteWeb.Models.Comment ad = new BookSiteWeb.Models.Comment() { NewsId = Model.Newses.NewsId, UserId = Model.UserId, ImageURL = Model.ImageURL, UserName = Model.UserName };
+}
+
+@Html.Partial("_CreateComment", ad)
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+    <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var notificationhub = $.connection.notificationHub;
+
+            notificationhub.client.displayMessage = function (message) {
+                window.location.reload(true);
+            };
+
+            $.connection.hub.start();
+
+        });
+    </script>
+}

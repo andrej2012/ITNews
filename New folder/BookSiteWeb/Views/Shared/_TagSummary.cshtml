@@ -1,0 +1,16 @@
+﻿@using BookSiteWeb.Models
+
+@{
+ ApplicationDbContext repository = new ApplicationDbContext();
+}
+
+<div class="well">
+    @foreach (var news in repository.Tags)
+    {
+        <h3>
+            @Html.ActionLink(news.TagName, "IndexTags", new { id = news.TagId })
+            <br />
+        </h3>
+    }
+
+</div>

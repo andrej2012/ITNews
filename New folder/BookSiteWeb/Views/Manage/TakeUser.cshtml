@@ -1,0 +1,13 @@
+﻿@model BookSiteWeb.Models.ApplicationUser
+
+@using (Html.BeginForm("TakeUser", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    <input type="submit" value="TakeUser" class="btn btn-default" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

@@ -1,0 +1,66 @@
+﻿@model BookSiteWeb.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Изменение профиля пользователя</h2>
+
+
+@using (Html.BeginForm("EditAdmin", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.ImageURL)
+    @Html.HiddenFor(model => model.ThumbnailURL)
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Имя пользоваетля</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Возраст</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Информация о себе</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Текущее фото профиля</label>
+        <div class="col-md-10">
+            <img src="@Html.Raw(Model.ImageURL)" width="100" />
+        </div>
+        <label class="control-label col-md-2" for="imageFile">Новое фото</label>
+        <div class="col-md-10">
+            <input type="file" name="imageFile" accept="image/*" class="form-control fileupload" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

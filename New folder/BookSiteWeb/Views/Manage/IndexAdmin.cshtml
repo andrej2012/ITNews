@@ -1,0 +1,48 @@
+﻿@model BookSiteWeb.Models.IndexViewModel
+@{
+    ViewBag.Title = "Профиль";
+}
+
+<h2>Профиль пользователя</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<hr />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Имя пользователя
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MyUser.UserName)
+        </dd>
+        <dt>
+            Возраст
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MyUser.Age)
+        </dd>
+        <dt>
+            Фото
+        </dt>
+        <dd>
+            <img src="@Html.Raw(Model.MyUser.ImageURL)" width="300" />
+        </dd>
+        <dt>
+            Информация о себе
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MyUser.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <div class="dl-horizontal">
+        <div class="btn btn-default">
+            @Html.ActionLink("Редактирование", "EditAdmin", new { userId = Model.MyUser.Id })
+        </div>
+        <div class="btn btn-default">
+            @Html.ActionLink("Новости", "IndexNewsAdmin", new { userId = Model.MyUser.Id })
+        </div>
+    </div>
+</div>

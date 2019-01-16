@@ -1,0 +1,29 @@
+﻿@model BookSiteWeb.Models.Comment
+
+<div class="well">
+    <div class="row" style="width:25%;float:left">
+        <div class="col-xs-9" style="width:25%;float:left">
+            <h3>
+                <strong>@Html.ActionLink(@Model.UserName, "Profile", new { userId = Model.UserId })</strong>
+            </h3>
+            <img src="@Html.Raw(Model.ImageURL)" height="100" />
+        </div>
+    </div>
+    <div style="float:right">
+        @Html.Partial("_DeliteComment", new BookSiteWeb.Models.Comment() { CommentId = Model.CommentId, NewsId = Model.NewsId, UserId = Model.UserId, ImageURL = Model.ImageURL, UserName = Model.UserName })
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="lead" style="width:75%;float:left">@Model.Text</div>
+    @{
+        BookSiteWeb.Models.Comment ad = new BookSiteWeb.Models.Comment() { CommentId = Model.CommentId, NewsId = Model.NewsId, UserId = Model.UserId, ImageURL = Model.ImageURL, UserName = Model.UserName, CountLike = Model.CountLike };
+    }
+    <br />
+    <br />
+    <br />
+    <br />
+    <div>
+        @Html.Partial("_TakeLike", ad)
+    </div>
+</div>
