@@ -1,0 +1,44 @@
+﻿@model BookSiteWeb.Models.ApplicationUser
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Профиль пользователя</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Имя пользователя
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt>
+            Возраст
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt>
+            Фото
+        </dt>
+        <dd>
+            <img src="@Html.Raw(Model.ImageURL)" width="300" />
+        </dd>
+        <dt>
+            Информация о себе
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<h2>
+    Список новостей пользователя:
+</h2>
+<br />
+@foreach (var news in Model.Newses)
+{
+    @Html.Partial("_BookSummary", news)
+}

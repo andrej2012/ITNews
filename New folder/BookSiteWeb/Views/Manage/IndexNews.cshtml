@@ -1,0 +1,68 @@
+﻿@model IEnumerable<BookSiteWeb.Models.News>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm("IndexNews", "Manage", FormMethod.Get))
+{
+    <p>
+        Поиск по имени: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Найти" />
+    </p>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Список новостей
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-condensed table-bordered">
+                <tr>                    
+                    <th>
+                        @Html.ActionLink("Название", "IndexNews", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        Жанр
+                    </th>
+                    <th>
+                        Описание
+                    </th>
+                    <th class="text-right">
+                        @Html.ActionLink("Дата публикации", "IndexNews", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th class="text-center">
+                        Действия
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>                       
+                        <td>
+                            @Html.ActionLink(item.Name, "EditNews", new { item.NewsId })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Genre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td class="text-right">
+                            @Html.DisplayFor(modelItem => item.PostedDate)
+                        </td>
+                        <td class="text-center">
+                            @using (Html.BeginForm("DeleteNews", "Manage"))
+                            {
+                                @Html.Hidden("NewsId", item.NewsId)
+                                <input type="submit" class="btn btn-default btn-xs" value="Удалить" />
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="panel-footer">
+            @Html.ActionLink("Добавить", "CreateNews", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+}
+

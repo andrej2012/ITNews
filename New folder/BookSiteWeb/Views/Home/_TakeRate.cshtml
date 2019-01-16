@@ -1,0 +1,9 @@
+﻿@model BookSiteWeb.Models.Rating
+
+
+@Html.Partial("_RateBox", new BookSiteWeb.Models.Rating() { NewsId = Model.NewsId })
+<br />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

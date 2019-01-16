@@ -1,0 +1,27 @@
+﻿@model BookSiteWeb.Models.News
+
+<div class="well">
+    <div class="row">
+        <div class="col-xs-9">
+            <h3>
+                <strong>@Html.ActionLink(@Model.Name, "Details", new { id = Model.NewsId })</strong>
+            </h3>
+            <br />
+            <img src="@Html.Raw(Model.ImageURL)" width="500" />
+        </div>
+    </div>
+    <br />
+    <span class="lead">@Model.Description</span>
+    <h5>
+        Тeги:
+        @foreach (var news in Model.Tags)
+        {
+            <b>
+                @Html.ActionLink(news.TagName, "IndexTags", new { id = news.TagId })
+            </b>
+        }
+    </h5>    
+    <h4>
+        @Html.ActionLink("Подробнее...", "Details", new { id = Model.NewsId })
+    </h4>
+</div>
